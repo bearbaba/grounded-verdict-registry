@@ -1,32 +1,15 @@
-# GroundedVerdictRegistry
+# Grounded Verdict
 
-Standalone GenLayer Intelligent Contract.
+Studionet (61999) Intelligent Contract: seal web sources, then finalize SUPPORTED / REFUTED / INCONCLUSIVE.
 
-Flow: `open_case` → `add_source` → `seal_sources` → `adjudicate` → `challenge`
+- Contract: `0xb354a893b31C0D6CBf55402fa2BB7cC0D8Ca2011`
+- Studio: https://studio.genlayer.com/?import-contract=0xb354a893b31C0D6CBf55402fa2BB7cC0D8Ca2011
+- Explorer: https://explorer-studio.genlayer.com/address/0xb354a893b31C0D6CBf55402fa2BB7cC0D8Ca2011
+- Live reader: https://bearbaba.github.io/grounded-verdict-registry/
 
-Status: OPEN → SEALED → SUPPORTED | REFUTED | INCONCLUSIVE → CHALLENGED
+## Settled cases
+1. example.org is for illustrative examples → SUPPORTED
+2. example.org is the UN homepage → REFUTED
+3. forbidden TLD → INCONCLUSIVE
 
-## Files
-- `contracts/GroundedVerdictRegistry.py` — contract for GenLayer Studio
-- `web/index.html` — operator checklist UI
-
-## Deploy
-1. Open https://studio.genlayer.com
-2. New contract → paste `contracts/GroundedVerdictRegistry.py`
-3. Deploy
-4. Run the 3 cases below
-
-## Studio cases
-1. question: The example.org page refers to IANA.  
-   rubric: SUPPORTED only if the visible page text mentions IANA.  
-   sources: https://example.org  
-   expect: SUPPORTED
-2. question: example.org is the official homepage of the United Nations.  
-   rubric: REFUTED if the page is a generic example and does not present itself as the UN.  
-   sources: https://example.org  
-   expect: REFUTED
-3. sources: https://this-domain-should-not-resolve-genlayer-test.invalid  
-   expect: INCONCLUSIVE
-
-## Local UI
-python -m http.server 8080 --directory web
+Flow: `open_case` → `seal_sources` → `adjudicate` → optional `challenge`
