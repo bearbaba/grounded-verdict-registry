@@ -1,46 +1,64 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Grounded Verdict</title>
   <style>
-    body{font:16px/1.45 system-ui;max-width:760px;margin:40px auto;padding:0 16px}
-    input,textarea{width:100%;margin:6px 0;padding:8px}
-    button{padding:8px 14px;margin:4px 8px 4px 0}
-    pre{background:#111;color:#eee;padding:12px;overflow:auto}
+    :root { --bg:#0b0f14; --card:#141b24; --line:#243041; --text:#e8eef6; --muted:#93a1b3; --yes:#3dd68c; --no:#ff6b6b; --wait:#f5c542; }
+    * { box-sizing:border-box }
+    body { margin:0; font:16px/1.45 ui-sans-serif,system-ui; background:var(--bg); color:var(--text) }
+    header, main { max-width:920px; margin:auto; padding:28px 20px }
+    h1 { margin:0 0 8px; font-size:32px }
+    .sub { color:var(--muted); max-width:640px }
+    .addr { font-family:ui-monospace,monospace; font-size:13px; color:#9ecbff; word-break:break-all }
+    .grid { display:grid; gap:14px; margin-top:24px }
+    article { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px }
+    .tag { display:inline-block; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700 }
+    .SUPPORTED { background:#123d2c; color:var(--yes) }
+    .REFUTED { background:#3d1515; color:var(--no) }
+    .INCONCLUSIVE { background:#3d3410; color:var(--wait) }
+    h2 { margin:10px 0 8px; font-size:18px }
+    p { margin:6px 0; color:var(--muted) }
+    .q { color:var(--text) }
+    footer { color:var(--muted); margin-top:28px; font-size:13px }
+    a { color:#9ecbff }
   </style>
 </head>
 <body>
-<h1>Grounded Verdict</h1>
-<p>Checklist for Studio. Deploy the Python contract first, then copy args from here.</p>
-<input id="addr" placeholder="contract address 0x..."/>
-<input id="cid" placeholder="case id" value="1"/>
-<textarea id="q">The example.org page refers to IANA.</textarea>
-<textarea id="r">SUPPORTED only if the visible page text mentions IANA.</textarea>
-<input id="s" value="https://example.org"/>
-<input id="x" value="pages conflict, re-judge"/>
-<div>
-  <button onclick="note('open_case')">open_case</button>
-  <button onclick="note('add_source')">add_source</button>
-  <button onclick="note('seal_sources')">seal_sources</button>
-  <button onclick="note('adjudicate')">adjudicate</button>
-  <button onclick="note('challenge')">challenge</button>
-</div>
-<pre id="out"></pre>
-<script>
-function note(fn){
-  const data = {
-    contract: addr.value.trim(),
-    method: fn,
-    case_id: cid.value.trim(),
-    question: q.value,
-    rubric: r.value,
-    sources_csv: s.value,
-    extra: x.value
-  };
-  out.textContent = JSON.stringify(data,null,2);
-  navigator.clipboard.writeText(out.textContent);
-}
-</script>
+<header>
+  <h1>Grounded Verdict</h1>
+  <p class="sub">A public case is sealed against live web sources. Validators agree on SUPPORTED, REFUTED, or INCONCLUSIVE. The contract keeps the verdict; this page shows the three cases already finalized on Studio.</p>
+  <p class="addr">0xb354a893b31C0D6CBf55402fa2BB7cC0D8Ca2011</p>
+</header>
+<main>
+  <div class="grid">
+    <article>
+      <span class="tag SUPPORTED">SUPPORTED</span>
+      <h2>Illustrative examples</h2>
+      <p class="q">The example.org page says this domain is for use in illustrative examples.</p>
+      <p>Source: https://example.org</p>
+      <p>The page text confirms the domain is for documentation examples.</p>
+    </article>
+    <article>
+      <span class="tag REFUTED">REFUTED</span>
+      <h2>United Nations homepage</h2>
+      <p class="q">example.org is the official homepage of the United Nations.</p>
+      <p>Source: https://example.org</p>
+      <p>The page presents itself as Example Domain, not the UN.</p>
+    </article>
+    <article>
+      <span class="tag INCONCLUSIVE">INCONCLUSIVE</span>
+      <h2>Unreachable source</h2>
+      <p class="q">This page exists and confirms the claim.</p>
+      <p>Source: invalid TLD</p>
+      <p>Fetch failed with TLD_FORBIDDEN.</p>
+    </article>
+  </div>
+  <footer>
+    Contract source and operator notes:
+    <a href="https://github.com/bearbaba/grounded-verdict-registry">github.com/bearbaba/grounded-verdict-registry</a>
+  </footer>
+</main>
 </body>
 </html>
