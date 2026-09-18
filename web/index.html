@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Grounded Verdict</title>
+  <style>
+    body{font:16px/1.45 system-ui;max-width:760px;margin:40px auto;padding:0 16px}
+    input,textarea{width:100%;margin:6px 0;padding:8px}
+    button{padding:8px 14px;margin:4px 8px 4px 0}
+    pre{background:#111;color:#eee;padding:12px;overflow:auto}
+  </style>
+</head>
+<body>
+<h1>Grounded Verdict</h1>
+<p>Checklist for Studio. Deploy the Python contract first, then copy args from here.</p>
+<input id="addr" placeholder="contract address 0x..."/>
+<input id="cid" placeholder="case id" value="1"/>
+<textarea id="q">The example.org page refers to IANA.</textarea>
+<textarea id="r">SUPPORTED only if the visible page text mentions IANA.</textarea>
+<input id="s" value="https://example.org"/>
+<input id="x" value="pages conflict, re-judge"/>
+<div>
+  <button onclick="note('open_case')">open_case</button>
+  <button onclick="note('add_source')">add_source</button>
+  <button onclick="note('seal_sources')">seal_sources</button>
+  <button onclick="note('adjudicate')">adjudicate</button>
+  <button onclick="note('challenge')">challenge</button>
+</div>
+<pre id="out"></pre>
+<script>
+function note(fn){
+  const data = {
+    contract: addr.value.trim(),
+    method: fn,
+    case_id: cid.value.trim(),
+    question: q.value,
+    rubric: r.value,
+    sources_csv: s.value,
+    extra: x.value
+  };
+  out.textContent = JSON.stringify(data,null,2);
+  navigator.clipboard.writeText(out.textContent);
+}
+</script>
+</body>
+</html>

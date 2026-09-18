@@ -1,0 +1,14 @@
+GroundedVerdictRegistry is a standalone primitive other contracts can call. No frontend, no payouts.
+
+Open a case with a question, rubric, and source URLs. Clerk can add sources, then seal so evidence cannot change. Anyone calls adjudicate. Challenge sends a finished case back for another round.
+
+State: typed Case map. OPEN → SEALED → SUPPORTED | REFUTED | INCONCLUSIVE → CHALLENGED. Stores clerk, sources, cited_url, justification, round_no.
+
+Consensus: adjudicate copies the case to memory, fetches sealed URLs live (gl.nondet.web.render), returns JSON {status, cited_url, justification}. Validators re-fetch the same pages. Accept only if status is one of those three, SUPPORTED/REFUTED is grounded in the text, INCONCLUSIVE when pages are missing/silent/conflicting, cited_url is a sealed source, and justification invents nothing. Valid JSON is not enough.
+
+Studio:
+1) example.org + “mentions IANA” → SUPPORTED
+2) “example.org is the UN site” → REFUTED
+3) dead URL → INCONCLUSIVE
+
+Repo: https://github.com/bearbaba/grounded-verdict-registry
